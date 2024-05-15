@@ -2,6 +2,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -77,8 +81,37 @@ GLuint lightIndices[] =
 const int width = 800;
 const int height = 800;
 
+
+bool DoTheImportThing(const std::string& pFile) {
+	// Create an instance of the Importer class
+
+	// And have it read the given file with some example postprocessing
+	// Usually - if speed is not the most important aspect for you - you'll
+	// probably to request more postprocessing than we do in this example.
+	/*
+	const aiScene* scene = importer.ReadFile(pFile,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_SortByPType);
+	
+
+	// If the import failed, report it
+	if (nullptr == scene) {
+		std::cout << importer.GetErrorString();
+		return false;
+	}
+	*/
+	// Now we can access the file's contents.
+	std::cout << "Loaded model!\n";
+
+	// We're done. Everything will be cleaned up by the importer destructor
+	return true;
+}
+
 int main()
 {
+	Assimp::Importer importer;
 	// Initialize GLFW
 	glfwInit();
 

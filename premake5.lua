@@ -28,7 +28,8 @@ project "Grafika"
 	    "vendor/glad/include/",
 	    "vendor/glfw/include/",
 		"vendor/glm/",
-        "vendor/stb/include"
+        "vendor/stb/include",
+        "vendor/assimp/include"
     }
     
     files { 
@@ -37,7 +38,8 @@ project "Grafika"
 		"src/*.hpp"
     }
 
-    links { "GLFW", "GLAD", "GLM" }
+    links { "GLFW", "GLAD", "GLM", "assimp-vc143-mt" }
+    libdirs {"vendor/assimp/lib/x64"}
 
     filter "system:linux"
         links { "dl", "pthread" }
@@ -46,6 +48,10 @@ project "Grafika"
 
     filter "system:windows"
         defines { "_WINDOWS", "STB_IMAGE_IMPLEMENTATION", "GLM_ENABLE_EXPERIMENTAL" }
+
+    postbuildcommands {
+        "{COPY} \"vendor/assimp/bin/x64/assimp-vc143-mt.dll\" bin/%{cfg.buildcfg}/grafika"
+    }
 
 group "Dependencies"
     include "vendor/glfw.lua"
