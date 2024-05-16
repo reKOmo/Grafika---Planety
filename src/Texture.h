@@ -1,22 +1,29 @@
-﻿#ifndef TEXTURE_CLASS_H
-#define TEXTURE_CLASS_H
+﻿#pragma once
 #include<glad/glad.h>
-#define STB_IMAGE_IMPLEMENTATION
+#include <map>
 #include"shaderClass.h"
 
 class Texture
 {
 public:
 	GLuint ID;
-	GLenum type;
-	Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
-	// Assigns a texture unit to a texture
-	void texUnit(Shader& shader, const char* uniform, GLuint unit);
-	// Binds a texture
-	void Bind();
-	// Unbinds a texture
-	void Unbind();
+	std::string type;
+	Texture(const char* image, std::string texType);
+	Texture() {
+		ID = 0;
+	}
 	// Deletes a texture
 	void Delete();
 };
-#endif
+
+class TextureManager {
+	std::map<std::string, Texture> loadedTexturesIndex;
+
+public:
+	TextureManager() {
+		std::cout << "Init Texture Manager\n";
+	}
+	Texture loadTexture(std::string path, std::string texType, GLenum format, GLenum pixelType);
+};
+
+extern TextureManager GlobalTextureManager;
