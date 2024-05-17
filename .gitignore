@@ -1,5 +1,5 @@
 bin
-!vendor/assimp
+!vendor/assimp/
 obj
 *.vcxproj
 *.vcxproj.filters
