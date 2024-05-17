@@ -119,7 +119,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
     {
         aiString str;
         mat->GetTexture(type, i, &str);
-        Texture texture = GlobalTextureManager.loadTexture(directory + "/" + str.C_Str(), typeName, GL_RGBA, GL_UNSIGNED_INT);
+        Texture texture = GlobalTextureManager.loadTexture(directory + "\\" + str.C_Str(), typeName, GL_RGBA, GL_UNSIGNED_INT);
         textures.push_back(texture);
     }
     return textures;

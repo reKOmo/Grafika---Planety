@@ -37,7 +37,9 @@ int main()
 	// Creates camera object
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-	Model monkey("resources/test_monkey.fbx");
+
+	//Ladownie modelu
+	Model monkey("resources/spot/spot.fbx");
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -49,17 +51,19 @@ int main()
 		camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
 
+		//Rysowanie modelu
 		shaderProgram.Activate();
 		camera.Matrix(shaderProgram, "camMatrix");
-
+		//ustawianie pozycji
 		glm::vec3 monkeyPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::mat4 monkeyModel = glm::mat4(1.0f);
 		monkeyModel = glm::translate(monkeyModel, monkeyPosition);
-
+		//obracanie
+		monkeyModel = glm::rotate(monkeyModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shaderProgram.setMat4("model", monkeyModel);
-
 		shaderProgram.setVec4("color", glm::vec4(0.8, 0.079, 0.262, 1.0));
 		monkey.Draw(shaderProgram);
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
