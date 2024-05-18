@@ -39,7 +39,10 @@ int main()
 
 
 	//Ladownie modelu
-	Model monkey("resources/spot/spot.fbx");
+	Model mercury("resources/mercury/mercury.fbx");
+	Model venus("resources/venus/venus.fbx");
+	Model mars("resources/mars/mars.fbx");
+	Model saturn("resources/saturn/saturn.fbx");
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -55,15 +58,41 @@ int main()
 		shaderProgram.Activate();
 		camera.Matrix(shaderProgram, "camMatrix");
 		//ustawianie pozycji
-		glm::vec3 monkeyPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-		glm::mat4 monkeyModel = glm::mat4(1.0f);
-		monkeyModel = glm::translate(monkeyModel, monkeyPosition);
+		glm::vec3 mercuryPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::mat4 mercuryModel = glm::mat4(1.0f);
+		mercuryModel = glm::translate(mercuryModel, mercuryPosition);
 		//obracanie
-		monkeyModel = glm::rotate(monkeyModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		shaderProgram.setMat4("model", monkeyModel);
+		mercuryModel = glm::rotate(mercuryModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderProgram.setMat4("model", mercuryModel);
 		shaderProgram.setVec4("color", glm::vec4(0.8, 0.079, 0.262, 1.0));
-		monkey.Draw(shaderProgram);
+		mercury.Draw(shaderProgram);
 
+		glm::vec3 venusPosition = glm::vec3(5.0f, 0.0f, 0.0f);
+		glm::mat4 venusModel = glm::mat4(1.0f);
+		venusModel = glm::translate(venusModel, venusPosition);
+		//obracanie
+		venusModel = glm::rotate(venusModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderProgram.setMat4("model", venusModel);
+		shaderProgram.setVec4("color", glm::vec4(0.8, 0.079, 0.262, 1.0));
+		venus.Draw(shaderProgram);
+
+		glm::vec3 marsPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+		glm::mat4 marsModel = glm::mat4(1.0f);
+		marsModel = glm::translate(marsModel, marsPosition);
+		//obracanie
+		marsModel = glm::rotate(marsModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderProgram.setMat4("model", marsModel);
+		shaderProgram.setVec4("color", glm::vec4(0.8, 0.079, 0.262, 1.0));
+		mars.Draw(shaderProgram);
+
+		glm::vec3 saturnPosition = glm::vec3(35.0f, 0.0f, 0.0f);
+		glm::mat4 saturnModel = glm::mat4(1.0f);
+		saturnModel = glm::translate(saturnModel, saturnPosition);
+		//obracanie
+		saturnModel = glm::rotate(saturnModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderProgram.setMat4("model", saturnModel);
+		shaderProgram.setVec4("color", glm::vec4(0.8, 0.079, 0.262, 1.0));
+		saturn.Draw(shaderProgram);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
