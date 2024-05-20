@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "Model.h"
+#include "Lights.h"
 
 const int width = 1280;
 const int height = 720;
@@ -37,6 +38,11 @@ int main()
     // Creates camera object
     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
+    Lights lights;
+    PointLight p;
+    p.position = { 2.0, 2.0, 2.0 };
+    lights.addPointLight(p);
+
     // Loading models
     /*Model mercury("resources/mercury/mercury.fbx");
     Model venus("resources/venus/venus.fbx");
@@ -49,7 +55,6 @@ int main()
     //Spot do testowania
     Model spot("resources/spot/spot.fbx");
     spot.meshes[0].material.ambient = glm::vec3(0.9, 0.9, 0.3);
-    spot.rotation.x = 90.0f;
 
     // Orbital radii
     float mercuryOrbitRadius = 25.0f;
@@ -70,6 +75,8 @@ int main()
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
+    float totalTime = 0;
+
     // Main while loop
     while (!glfwWindowShouldClose(window))
     {
@@ -86,6 +93,7 @@ int main()
         // Rysowanie modeli
         shaderProgram.Activate();
         camera.Matrix(shaderProgram, "camMatrix");
+        lights.setLights(shaderProgram);
 
         //// Mercury
         //float mercuryAngle = mercurySpeed * currentFrame;
@@ -128,8 +136,24 @@ int main()
         //sun.position = glm::vec3(0.0f, 0.0f, 0.0f);
         //sun.rotation.x = 90.0f;
         //sun.Draw(shaderProgram);
-
+        spot.rotation.y += .5f * deltaTime;
         spot.Draw(shaderProgram);
+
+        if (totalTime < 0.3) {
+            lights.pointLights[0].diffuse = {0.0, 1.0, .0};
+        }
+        else if (totalTime < 0.6) {
+            lights.pointLights[0].diffuse = { 1.0, 0.0, .0 };
+        }
+        else if (totalTime < 0.9) {
+            lights.pointLights[0].diffuse = { 0.0, 0.0, 1.0 };
+        }
+        else {
+            totalTime = 0.0;
+            lights.pointLights[0].diffuse = { 0.0, 1.0, .0 };
+        }
+        totalTime += deltaTime;
+        lights.drawLights(camera.cameraMatrix);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
