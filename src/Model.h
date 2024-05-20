@@ -9,14 +9,17 @@ public:
     Model(char* path)
     {
         loadModel(path);
+        position = { 0.0f, 0.0f, 0.0f };
+        rotation = { 0.0f, 0.0f, 0.0f };
+        scale = { 1.0f, 1.0f, 1.0f };
     }
     void Draw(Shader& shader);
     glm::vec3 position;
     glm::vec3 rotation;
-    glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
+    glm::vec3 scale;
+    std::vector<Mesh> meshes;
 private:
     // model data
-    std::vector<Mesh> meshes;
     std::string directory;
 
 

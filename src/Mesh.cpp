@@ -59,6 +59,7 @@ void Mesh::Draw(Shader& shader, glm::mat4& model)
     glActiveTexture(GL_TEXTURE0);
 
     shader.setMat4("model", model);
+    material.setValues(shader);
 
     // draw mesh
     glBindVertexArray(VAO);
