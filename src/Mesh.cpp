@@ -1,10 +1,11 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material m)
 {
     this->vertices = vertices;
     this->indices = indices;
     this->textures = textures;
+    this->material = m;
 
     setupMesh();
 }
@@ -37,7 +38,7 @@ void Mesh::setupMesh()
     glBindVertexArray(0);
 } 
 
-void Mesh::Draw(Shader& shader)
+void Mesh::Draw(Shader& shader, glm::mat4& model)
 {
     unsigned int diffuseNr = 0;
     unsigned int specularNr = 0;
@@ -56,6 +57,8 @@ void Mesh::Draw(Shader& shader)
         glBindTexture(GL_TEXTURE_2D, textures[i].ID);
     }
     glActiveTexture(GL_TEXTURE0);
+
+    shader.setMat4("model", model);
 
     // draw mesh
     glBindVertexArray(VAO);

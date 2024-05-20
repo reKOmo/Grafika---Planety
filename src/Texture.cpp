@@ -38,7 +38,7 @@ void Texture::Delete()
 
 Texture TextureManager::loadTexture(std::string path, std::string texType, GLenum format, GLenum pixelType)
 {
-	std::cout << "Loading texture: " << path;
+	std::cout << "Loading texture: " << path << "\n";
 	if (loadedTexturesIndex.find(path) != loadedTexturesIndex.end()) {
 		//key found
 		return loadedTexturesIndex[path];

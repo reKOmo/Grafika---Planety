@@ -2,11 +2,21 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 void Model::Draw(Shader& shader)
 {
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, position);
+    // Create the rotation matrices for each axis
+    glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+    model = rotationZ * rotationY * rotationX * model;
+    model = glm::scale(model, scale);
+
     for (unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
+        meshes[i].Draw(shader, model);
 }
 
 void Model::loadModel(std::string path)
@@ -89,12 +99,19 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     }
     // process materials
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-    // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-    // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-    // Same applies to other texture as the following list summarizes:
-    // diffuse: texture_diffuseN
-    // specular: texture_specularN
-    // normal: texture_normalN
+
+    Material m;
+    aiColor3D diff;
+    material->Get(AI_MATKEY_COLOR_DIFFUSE, diff);
+    aiColor3D spec;
+    material->Get(AI_MATKEY_COLOR_SPECULAR, spec);
+    aiColor3D amb;
+    material->Get(AI_MATKEY_COLOR_AMBIENT, amb);
+    m.diffuse = glm::vec3(diff.r, diff.g, diff.b);
+    m.ambient = glm::vec3(amb.r, amb.g, amb.b);
+    m.specular = glm::vec3(spec.r, spec.g, spec.b);
+    material->Get(AI_MATKEY_SHININESS, m.shininess);
+    material->Get(AI_MATKEY_SHININESS_STRENGTH, m.shineStrength);
 
     // 1. diffuse maps
     std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -109,7 +126,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, textures, m);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)

@@ -11,6 +11,9 @@ public:
         loadModel(path);
     }
     void Draw(Shader& shader);
+    glm::vec3 position;
+    glm::vec3 rotation;
+    glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
 private:
     // model data
     std::vector<Mesh> meshes;
