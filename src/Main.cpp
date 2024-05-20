@@ -55,6 +55,7 @@ int main()
     //Spot do testowania
     Model spot("resources/spot/spot.fbx");
     spot.meshes[0].material.ambient = glm::vec3(0.9, 0.9, 0.3);
+    spot.meshes[0].material.specular = { 0.0, .0, .0 };
 
     // Orbital radii
     float mercuryOrbitRadius = 25.0f;
