@@ -13,7 +13,7 @@ public:
         rotation = { 0.0f, 0.0f, 0.0f };
         scale = { 1.0f, 1.0f, 1.0f };
     }
-    void Draw(Shader& shader);
+    void Draw(Shader& shader, float currentFrame, float selfRotationSpeed);
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;

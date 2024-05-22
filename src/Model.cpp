@@ -4,7 +4,7 @@
 #include <assimp/postprocess.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-void Model::Draw(Shader& shader)
+void Model::Draw(Shader& shader, float currentFrame, float selfRotationSpeed)
 {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, position);
@@ -13,6 +13,9 @@ void Model::Draw(Shader& shader)
     glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
     model = rotationZ * rotationY * rotationX * model;
+
+    model = glm::rotate(model, currentFrame * selfRotationSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+
     model = glm::scale(model, scale);
 
     for (unsigned int i = 0; i < meshes.size(); i++)

@@ -32,6 +32,6 @@ void Lights::drawLights(glm::mat4& camMatrix)
     for (unsigned int i = 0; i < pointLights.size(); i++)
     {
         lightModel.position = pointLights[i].position;
-        lightModel.Draw(shader);
+        lightModel.Draw(shader, 0.0f, 0.0f);
     }
 }

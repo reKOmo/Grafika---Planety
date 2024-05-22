@@ -101,42 +101,42 @@ int main()
         //Sky
         sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
         //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
-        sky.Draw(shaderProgram);
+        sky.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Mercury
         float mercuryAngle = mercurySpeed * currentFrame;
         mercury.position = glm::vec3(mercuryOrbitRadius * sin(mercuryAngle), 0.0f, mercuryOrbitRadius * cos(mercuryAngle));
-        mercury.Draw(shaderProgram);
+        mercury.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Venus
         float venusAngle = venusSpeed * currentFrame;
         venus.position = glm::vec3(venusOrbitRadius * sin(venusAngle), 0.0f, venusOrbitRadius * cos(venusAngle));
-        venus.Draw(shaderProgram);
+        venus.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Mars
         float marsAngle = marsSpeed * currentFrame;
         mars.position = glm::vec3(marsOrbitRadius * sin(marsAngle), 0.0f, marsOrbitRadius * cos(marsAngle));
-        mars.Draw(shaderProgram);
+        mars.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Saturn
         float saturnAngle = saturnSpeed * currentFrame;
         saturn.position = glm::vec3(saturnOrbitRadius * sin(saturnAngle), 0.0f, saturnOrbitRadius * cos(saturnAngle));
-        saturn.Draw(shaderProgram);
+        saturn.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Alien
         float alienAngle = alienSpeed * currentFrame;
         alien.position = glm::vec3(alienOrbitRadius * sin(alienAngle), 0.0f, alienOrbitRadius * cos(alienAngle));
-        alien.Draw(shaderProgram);
+        alien.Draw(shaderProgram, currentFrame, 0.4f);
 
         // Earth
         float earthAngle = earthSpeed * currentFrame;
         earth.position = glm::vec3(earthOrbitRadius * sin(earthAngle), 0.0f, earthOrbitRadius * cos(earthAngle));
         earth.scale = glm::vec3(0.025f, 0.025f, 0.025f);
-        earth.Draw(shaderProgram);
+        earth.Draw(shaderProgram, currentFrame, 0.4f);
 
         //Sun
         sun.position = glm::vec3(0.0f, 0.0f, 0.0f);
-        sun.Draw(shaderProgram);
+        sun.Draw(shaderProgram, currentFrame, 10.0f);
 
         /*
         spot.rotation.y += .5f * deltaTime;
