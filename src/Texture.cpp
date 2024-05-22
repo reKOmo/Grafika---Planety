@@ -25,7 +25,7 @@ Texture::Texture(const char* image, std::string texType)
 	else if (numColCh == 4)
 		format = GL_RGBA;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, format, GL_UNSIGNED_BYTE, bytes);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, widthImg, heightImg, 0, format, GL_UNSIGNED_BYTE, bytes);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(bytes);
 	glBindTexture(GL_TEXTURE_2D, 0);

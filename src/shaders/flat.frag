@@ -10,5 +10,7 @@ uniform vec4 color;
 
 void main()
 {
-	FragColor = texture(texture_diffuse0, texCoord);
+	vec4 diffuse = texture(texture_diffuse0, texCoord);
+	float gamma = 2.2;
+    FragColor = vec4(pow(diffuse.rgb, vec3(1.0/gamma)), diffuse.a);
 }

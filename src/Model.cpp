@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <algorithm>
 
 void Model::Draw(Shader& shader, float currentFrame, float selfRotationSpeed)
 {
@@ -114,6 +115,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     m.ambient = glm::vec3(amb.r, amb.g, amb.b);
     m.specular = glm::vec3(spec.r, spec.g, spec.b);
     material->Get(AI_MATKEY_SHININESS, m.shininess);
+    m.shininess = std::max(m.shininess, 1.0f);
     material->Get(AI_MATKEY_SHININESS_STRENGTH, m.shineStrength);
 
     // 1. diffuse maps
