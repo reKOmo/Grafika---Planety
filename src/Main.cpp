@@ -109,7 +109,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         camera.Inputs(window, currentFrame);  // Przekazanie deltaTime
-        camera.updateMatrix(45.0f, 0.1f, 200.0f);
+        camera.updateMatrix(45.0f, 0.1f, 600.0f);
 
         // Rysowanie modeli
         shaderProgram.Activate();
@@ -118,50 +118,50 @@ int main()
 
         //Sky
         sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
-        //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
-        sky.Draw(shaderProgram);
+        sky.scale = glm::vec3(20.0f, 20.0f, 20.0f);
+        sky.Draw(shaderProgram, currentFrame, 0.0f);
 
         // Mercury
         float mercuryAngle = mercurySpeed * currentFrame;
         mercury.position = glm::vec3(mercuryOrbitRadius * sin(mercuryAngle), 0.0f, mercuryOrbitRadius * cos(mercuryAngle));
-        mercury.Draw(shaderProgram, currentFrame, 0.4f);
+        mercury.Draw(shaderProgram, currentFrame, -0.4f);
 
         // Venus
         float venusAngle = venusSpeed * currentFrame;
         venus.position = glm::vec3(venusOrbitRadius * sin(venusAngle), 0.0f, venusOrbitRadius * cos(venusAngle));
-        venus.Draw(shaderProgram, currentFrame, 0.4f);
+        venus.Draw(shaderProgram, currentFrame, -0.8f);
 
         // Mars
         float marsAngle = marsSpeed * currentFrame;
         mars.position = glm::vec3(marsOrbitRadius * sin(marsAngle), 0.0f, marsOrbitRadius * cos(marsAngle));
-        mars.Draw(shaderProgram, currentFrame, 0.4f);
+        mars.Draw(shaderProgram, currentFrame, -1.4f);
 
         // Saturn
         float saturnAngle = saturnSpeed * currentFrame;
         saturn.position = glm::vec3(saturnOrbitRadius * sin(saturnAngle), 0.0f, saturnOrbitRadius * cos(saturnAngle));
-        saturn.Draw(shaderProgram, currentFrame, 0.4f);
+        saturn.Draw(shaderProgram, currentFrame, -0.9f);
 
         // Alien
         float alienAngle = alienSpeed * currentFrame;
         alien.position = glm::vec3(alienOrbitRadius * sin(alienAngle), 0.0f, alienOrbitRadius * cos(alienAngle));
-        alien.Draw(shaderProgram, currentFrame, 0.4f);
+        alien.Draw(shaderProgram, currentFrame, -0.7f);
 
         // Earth
         float earthAngle = earthSpeed * currentFrame;
         earth.position = glm::vec3(earthOrbitRadius * sin(earthAngle), 0.0f, earthOrbitRadius * cos(earthAngle));
         earth.scale = glm::vec3(0.025f, 0.025f, 0.025f);
-        earth.Draw(shaderProgram, currentFrame, 0.4f);
+        earth.Draw(shaderProgram, currentFrame, -4.0f);
 
 
         flatShaderProgram.Activate();
         camera.Matrix(flatShaderProgram, "camMatrix");
         //Sun
         sun.position = glm::vec3(0.0f, 0.0f, 0.0f);
-        sun.Draw(flatShaderProgram);
+        sun.Draw(flatShaderProgram, currentFrame, 1.0f);
         //Sky
         sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
         //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
-        sky.Draw(flatShaderProgram);
+        sky.Draw(flatShaderProgram, 0.0f, 0.0f);
 
         /*
         spot.rotation.y += .5f * deltaTime;
