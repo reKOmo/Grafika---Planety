@@ -37,12 +37,21 @@ int main()
 
     // Generates Shader object using shaders default.vert and default.frag
     Shader shaderProgram("src/shaders/default.vert", "src/shaders/default.frag");
+    Shader flatShaderProgram("src/shaders/flat.vert", "src/shaders/flat.frag");
     // Creates camera object
     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     Lights lights;
     PointLight p;
-    p.position = { 2.0, 2.0, 2.0 };
+    glm::vec3 lightColor(1.0f, 0.5f, 0.31f);
+    //0.992156, 0.984313, 0.827450
+    p.diffuse = lightColor * 0.5f;
+    p.ambient = lightColor * 0.01f;
+    p.specular = { 1.0, 1.0, 1.0 };
+    p.position = { .0, .0, .0 };
+    p.linear = 0.007;
+    p.quadratic = 0.0002;
+    p.constant = 1.0;
     lights.addPointLight(p);
 
     // Loading models
@@ -76,6 +85,13 @@ int main()
     float alienSpeed = 0.2f;
     float earthSpeed = 0.1f;
 
+    /*float mercurySpeed = 0.0f;
+    float venusSpeed = 0.0f;
+    float marsSpeed = 0.0f;
+    float saturnSpeed = 0.0f;
+    float alienSpeed = 0.0f;
+    float earthSpeed = 0.0f;*/
+
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
@@ -98,11 +114,6 @@ int main()
         shaderProgram.Activate();
         camera.Matrix(shaderProgram, "camMatrix");
         lights.setLights(shaderProgram);
-
-        //Sky
-        sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
-        //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
-        sky.Draw(shaderProgram);
 
         // Mercury
         float mercuryAngle = mercurySpeed * currentFrame;
@@ -135,28 +146,22 @@ int main()
         earth.scale = glm::vec3(0.025f, 0.025f, 0.025f);
         earth.Draw(shaderProgram);
 
+
+        flatShaderProgram.Activate();
+        camera.Matrix(flatShaderProgram, "camMatrix");
         //Sun
         sun.position = glm::vec3(0.0f, 0.0f, 0.0f);
-        sun.Draw(shaderProgram);
+        sun.Draw(flatShaderProgram);
+        //Sky
+        sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
+        //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
+        sky.Draw(flatShaderProgram);
 
         /*
         spot.rotation.y += .5f * deltaTime;
         spot.Draw(shaderProgram);
         */
-        if (totalTime < 0.3) {
-            lights.pointLights[0].diffuse = { 0.0, 1.0, .0 };
-        }
-        else if (totalTime < 0.6) {
-            lights.pointLights[0].diffuse = { 1.0, 0.0, .0 };
-        }
-        else if (totalTime < 0.9) {
-            lights.pointLights[0].diffuse = { 0.0, 0.0, 1.0 };
-        }
-        else {
-            totalTime = 0.0;
-            lights.pointLights[0].diffuse = { 0.0, 1.0, .0 };
-        }
-        totalTime += deltaTime;
+
         lights.drawLights(camera.cameraMatrix);
 
         glfwSwapBuffers(window);

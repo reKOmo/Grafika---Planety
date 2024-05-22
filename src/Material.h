@@ -26,6 +26,6 @@ struct Material : BasicMaterial {
         s.setVec3("specularColor", specular);
         s.setVec3("color", diffuse);
         s.setFloat("shininess", shininess);
-        s.setFloat("shininess_strength", shineStrength);
+        s.setFloat("shineStrength", shineStrength);
     }
 };
