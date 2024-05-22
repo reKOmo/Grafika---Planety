@@ -98,6 +98,7 @@ int main()
     float totalTime = 0;
 
     // Main while loop
+    // Main while loop
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -107,7 +108,7 @@ int main()
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        camera.Inputs(window);
+        camera.Inputs(window, currentFrame);  // Przekazanie deltaTime
         camera.updateMatrix(45.0f, 0.1f, 200.0f);
 
         // Rysowanie modeli
@@ -139,7 +140,7 @@ int main()
         float alienAngle = alienSpeed * currentFrame;
         alien.position = glm::vec3(alienOrbitRadius * sin(alienAngle), 0.0f, alienOrbitRadius * cos(alienAngle));
         alien.Draw(shaderProgram);
-                 
+
         // Earth
         float earthAngle = earthSpeed * currentFrame;
         earth.position = glm::vec3(earthOrbitRadius * sin(earthAngle), 0.0f, earthOrbitRadius * cos(earthAngle));
@@ -167,6 +168,7 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
 
     glfwDestroyWindow(window);
     glfwTerminate();
