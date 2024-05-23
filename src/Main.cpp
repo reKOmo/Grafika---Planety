@@ -38,6 +38,7 @@ int main()
     // Generates Shader object using shaders default.vert and default.frag
     Shader shaderProgram("src/shaders/default.vert", "src/shaders/default.frag");
     Shader flatShaderProgram("src/shaders/flat.vert", "src/shaders/flat.frag");
+    Shader starShader("src/shaders/flat.vert", "src/shaders/stars.frag");
     // Creates camera object
     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
@@ -62,12 +63,10 @@ int main()
     Model alien("resources/alien/alien.fbx");
     Model earth("resources/earth/earth.fbx");
     Model sun("resources/sun/sun.fbx");
-    Model sky("resources/sky/sky.fbx");
+    Model sky("resources/sphere/sphere.fbx");
 
-    //Spot do testowania
-    Model spot("resources/spot/spot.fbx");
-    spot.meshes[0].material.ambient = glm::vec3(0.9, 0.9, 0.3);
-    spot.meshes[0].material.specular = { 0.0, .0, .0 };
+    sky.position = glm::vec3(0.0f, 0.0f, 0.0f);
+    sky.scale = glm::vec3(1500.0f);
 
     // Orbital radii
     float mercuryOrbitRadius = 25.0f;
@@ -98,7 +97,6 @@ int main()
     float totalTime = 0;
 
     // Main while loop
-    // Main while loop
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -109,17 +107,12 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         camera.Inputs(window, currentFrame);  // Przekazanie deltaTime
-        camera.updateMatrix(45.0f, 0.1f, 600.0f);
+        camera.updateMatrix(45.0f, 0.1f, 2000.0f);
 
         // Rysowanie modeli
         shaderProgram.Activate();
         camera.Matrix(shaderProgram, "camMatrix");
         lights.setLights(shaderProgram);
-
-        //Sky
-        sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
-        sky.scale = glm::vec3(20.0f, 20.0f, 20.0f);
-        sky.Draw(shaderProgram, currentFrame, 0.0f);
 
         // Mercury
         float mercuryAngle = mercurySpeed * currentFrame;
@@ -158,15 +151,12 @@ int main()
         //Sun
         sun.position = glm::vec3(0.0f, 0.0f, 0.0f);
         sun.Draw(flatShaderProgram, currentFrame, 1.0f);
-        //Sky
-        sky.position = glm::vec3(15.0f, 15.0f, 15.0f);
-        //sky.scale = glm::vec3(40.0f, 40.0f, 40.0f);
-        sky.Draw(flatShaderProgram, 0.0f, 0.0f);
 
-        /*
-        spot.rotation.y += .5f * deltaTime;
-        spot.Draw(shaderProgram);
-        */
+        //Sky
+        starShader.Activate();
+        camera.Matrix(starShader, "camMatrix");
+        starShader.setFloat("time", currentFrame);
+        sky.Draw(starShader, currentFrame, 0.0f);
 
         lights.drawLights(camera.cameraMatrix);
 

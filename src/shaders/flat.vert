@@ -5,6 +5,7 @@ layout (location = 2) in vec2 aTex;
 
 out vec2 texCoord;
 out vec3 Normal;
+out vec3 FragPos;
 
 uniform mat4 model;
 uniform mat4 camMatrix;
@@ -15,4 +16,5 @@ void main()
 
 	texCoord = aTex;
 	Normal = aNormal;
+	FragPos = aPos;
 }
