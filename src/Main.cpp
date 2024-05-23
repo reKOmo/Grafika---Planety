@@ -45,7 +45,6 @@ int main()
     Lights lights;
     PointLight p;
     glm::vec3 lightColor(1.0f, 0.5f, 0.31f);
-    //0.992156, 0.984313, 0.827450
     p.diffuse = lightColor * 0.5f;
     p.ambient = lightColor * 0.01f;
     p.specular = { 1.0, 1.0, 1.0 };
@@ -54,6 +53,16 @@ int main()
     p.quadratic = 0.0002;
     p.constant = 1.0;
     lights.addPointLight(p);
+
+    PointLight p2;
+    p2.linear = 0.35f;
+    p2.quadratic = 0.2f;
+    glm::vec3 spotLightColor(1.0f, 0.0f, 0.0f);
+    p2.diffuse = spotLightColor * 0.7f;
+    p2.ambient = spotLightColor * 0.00f;
+    p2.specular = { 1.0, 1.0, 1.0 };
+    float timeForLight = 0.0;
+    lights.addPointLight(p2);
 
     // Loading models
     Model mercury("resources/mercury/mercury.fbx");
@@ -64,6 +73,7 @@ int main()
     Model earth("resources/earth/earth.fbx");
     Model sun("resources/sun/sun.fbx");
     Model sky("resources/sphere/sphere.fbx");
+    Model spot("resources/spot/spot.fbx");
 
     sky.position = glm::vec3(0.0f, 0.0f, 0.0f);
     sky.scale = glm::vec3(1500.0f);
@@ -84,6 +94,13 @@ int main()
     float alienSpeed = 0.2f;
     float earthSpeed = 0.1f;
 
+    /*float mercurySpeed = .0f;
+    float venusSpeed = 0.0f;
+    float marsSpeed = 0.0f;
+    float saturnSpeed = 0.0f;
+    float alienSpeed = 0.0f;
+    float earthSpeed = 0.0f;*/
+
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
@@ -100,7 +117,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         camera.Inputs(window, currentFrame);  // Przekazanie deltaTime
-        camera.updateMatrix(45.0f, 0.1f, 3000.0f);
+        camera.updateMatrix(60.0f, 0.1f, 3000.0f);
 
         // Rysowanie modeli
         shaderProgram.Activate();
@@ -137,6 +154,26 @@ int main()
         earth.position = glm::vec3(earthOrbitRadius * sin(earthAngle), 0.0f, earthOrbitRadius * cos(earthAngle));
         earth.scale = glm::vec3(0.025f, 0.025f, 0.025f);
         earth.Draw(shaderProgram, currentFrame, -4.0f);
+
+        //Spot
+        spot.position = earth.position;
+        spot.position.x += 5;
+        lights.pointLights[1].position = spot.position - glm::vec3(1.0, .0, .0);
+        if (timeForLight < 0.1) {
+            lights.pointLights[1].diffuse = { 1.0, .0, .0 };
+        }
+        else if (timeForLight < 0.2) {
+            lights.pointLights[1].diffuse = { 0.0, 1.0, .0 };
+        }
+        else if (timeForLight < 0.3) {
+            lights.pointLights[1].diffuse = { .0, .0, 1.0 };
+        }
+        else {
+            timeForLight = 0.0;
+            lights.pointLights[1].diffuse = { 1.0, .0, .0 };
+        }
+        timeForLight += deltaTime;
+        spot.Draw(shaderProgram, 1, glm::radians(90.0f));
 
 
         flatShaderProgram.Activate();
