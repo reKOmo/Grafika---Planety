@@ -39,7 +39,7 @@ void main()
     
     // Stars computation:
     vec3 stars_direction = normalize(vec3(uv * 2.0f - 1.0f, 1.0f)); // could be view vector for example
-	float stars_threshold = 8.0f; // modifies the number of stars that are visible
+	float stars_threshold = 10.0f; // modifies the number of stars that are visible
 	float stars_exposure = 200.0f; // modifies the overall strength of the stars
 	float stars = pow(clamp(noise(stars_direction * 200.0f), 0.0f, 1.0f), stars_threshold) * stars_exposure;
 	stars *= mix(0.4, 1.4, noise(stars_direction * 100.0f + vec3(time))); // time based flickering
