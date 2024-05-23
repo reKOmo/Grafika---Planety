@@ -40,7 +40,7 @@ int main()
     Shader flatShaderProgram("src/shaders/flat.vert", "src/shaders/flat.frag");
     Shader starShader("src/shaders/flat.vert", "src/shaders/stars.frag");
     // Creates camera object
-    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+    Camera camera(width, height, glm::vec3(25.0f, 15.0f, 90.0f));
 
     Lights lights;
     PointLight p;
@@ -72,9 +72,9 @@ int main()
     float mercuryOrbitRadius = 25.0f;
     float venusOrbitRadius = 35.0f;
     float marsOrbitRadius = 45.0f;
-    float saturnOrbitRadius = 55.0f;
+    float saturnOrbitRadius = 75.0f;
     float alienOrbitRadius = 65.0f;
-    float earthOrbitRadius = 75.0f;
+    float earthOrbitRadius = 55.0f;
 
     // Angular velocities (in radians per second)
     float mercurySpeed = 1.0f;
@@ -83,13 +83,6 @@ int main()
     float saturnSpeed = 0.4f;
     float alienSpeed = 0.2f;
     float earthSpeed = 0.1f;
-
-    /*float mercurySpeed = 0.0f;
-    float venusSpeed = 0.0f;
-    float marsSpeed = 0.0f;
-    float saturnSpeed = 0.0f;
-    float alienSpeed = 0.0f;
-    float earthSpeed = 0.0f;*/
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
@@ -107,7 +100,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         camera.Inputs(window, currentFrame);  // Przekazanie deltaTime
-        camera.updateMatrix(45.0f, 0.1f, 2000.0f);
+        camera.updateMatrix(45.0f, 0.1f, 3000.0f);
 
         // Rysowanie modeli
         shaderProgram.Activate();
@@ -158,7 +151,7 @@ int main()
         starShader.setFloat("time", currentFrame);
         sky.Draw(starShader, currentFrame, 0.0f);
 
-        lights.drawLights(camera.cameraMatrix);
+        //lights.drawLights(camera.cameraMatrix);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
