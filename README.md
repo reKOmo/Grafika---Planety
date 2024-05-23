@@ -1,7 +1,7 @@
 <img src="resources/evil_cow.png"/>
 
-<h1 style="text-align: center; color: red">Projekt Układ Słoneczny</h1>
-<h2 style="text-align: center; color: orange">⋆⭒˚.⋆🪐 ⋆⭒˚.⋆</h2>
+<h1 align="center">Projekt Układ Słoneczny</h1>
+<h2 align="center">⋆⭒˚.⋆🪐 ⋆⭒˚.⋆</h2>
 
 ---
 
